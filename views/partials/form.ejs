@@ -1,0 +1,30 @@
+<style>
+    html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+</style>
+
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+    <div class="container p-4 border border-3 rounded-3 bg-dark text-light shadow-lg" style="max-width: 400px;">
+        <h1 class="text-center mb-4 text-warning fw-bold text-shadow">Dive Into Some Tech Goodness</h1>
+        
+        <form action="/user/signin" method="POST">
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Email Address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" name="email" required>
+                <div id="emailHelp" class="form-text text-secondary">
+                    We respect your privacy. Your data is safe with us.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" name="password" required>
+            </div>
+
+            <button type="submit" class="btn btn-warning w-100 fw-bold">Sign In</button>
+        </form>
+    </div>
+</div>

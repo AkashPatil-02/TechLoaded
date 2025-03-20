@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head')%>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Stick+No+Bills:wght@200..800&display=swap" rel="stylesheet">
+    
+    <title>SignUp</title>
+
+    <style>
+      body{
+        font-family: 'Audiowide','sans serif';
+        background-image: url('/public/images/bg_signup.jpg');
+        
+      }
+    </style>
+</head>
+<body style="background-image: url('/images/bg_signup.jpg'); background-size: cover;">
+    <%- include('./partials/nav')%>
+    <h1 style="text-align: center; color: azure; text-decoration: underline;margin-top: 30px;font-size:35px;">Sign Up</h1>
+    
+    <%- include ('./partials/form')%>
+    
+
+    <%- include('./partials/scripts')%>
+</body>  
+</html>
