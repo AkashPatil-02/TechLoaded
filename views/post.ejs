@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head')%>
+    
+    <title>Post</title>
+</head>
+
+<body style="font-family: 'Audiowide','sans serif';">
+    <%- include('./partials/nav')%>
+    <button><i class="bi bi-arrow-left">Back</i></button>
+
+    <div class="container mt-4">
+        <h1><%= post.title %></h1>
+        <img src="/<%= post.imageURL %>" width="700px" />
+        <pre><%= post.body %></pre>
+    </div>
+
+    <div class="container mt-4">
+        <img src="<%= post.createdBy.profileImageURL %>" alt="image" width="70px"/><%= 
+            post.createdBy.fullName%>
+
+    </div>
+
+
+    <%- include('./partials/scripts')%>
+    <%- include('./partials/themeScript') %>
+</body>
+
+</html>

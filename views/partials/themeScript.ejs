@@ -1,0 +1,23 @@
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const themeToggle = document.getElementById("theme-toggle");
+    const currentTheme = localStorage.getItem("theme") || "light";
+
+    // Apply stored theme
+    document.body.setAttribute("data-theme", currentTheme);
+    updateButtonText(currentTheme);
+
+    // Toggle theme on button click
+    themeToggle.addEventListener("click", () => {
+        let newTheme = document.body.getAttribute("data-theme") === "light" ? "dark" : "light";
+        document.body.setAttribute("data-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
+        updateButtonText(newTheme);
+    });
+
+    function updateButtonText(theme) {
+        themeToggle.textContent = theme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode";
+    }
+});
+
+</script>

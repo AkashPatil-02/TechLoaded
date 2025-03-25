@@ -1,0 +1,24 @@
+/* Default Light Theme */
+body[data-theme="light"] {
+    background-image: url('/images/home_light.jpg');
+    background-size: cover;
+    background-color: #ffffff;
+    color: #000000;
+    font-family: 'Audiowide','sans serif';
+}
+
+/* Dark Theme */
+body[data-theme="dark"] {
+    background-image: url('/images/home1.jpg');
+    background-size: cover;
+    background-color: #121212;
+    color: #ffffff;
+    font-family: 'Audiowide','sans serif';
+}
+
+/* Dark Theme for Forum Cards */
+body[data-theme="dark"] .card {
+    background-color: rgb(85, 85, 85);
+    color: #ffffff;
+}
+

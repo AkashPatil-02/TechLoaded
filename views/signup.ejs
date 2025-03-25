@@ -13,15 +13,43 @@
       body{
         font-family: 'Audiowide','sans serif';
         background-image: url('/public/images/bg_signup.jpg');
+        overflow: hidden;
+        height: 100vh;
         
       }
     </style>
 </head>
 <body style="background-image: url('/images/bg_signup.jpg'); background-size: cover;">
-    <%- include('./partials/nav')%>
+    <%- include('./partials/nav2')%>
     <h1 style="text-align: center; color: azure; text-decoration: underline;margin-top: 30px;font-size:35px;">Sign Up</h1>
     
-    <%- include ('./partials/form')%>
+    <div class="d-flex justify-content-center align-items-center min-vh-100">
+      <div class="container p-4 border border-3 rounded-3 bg-dark text-light shadow-lg" style="max-width: 400px;">
+          <h1 class="text-center mb-4 text-warning fw-bold text-shadow">Dive Into Some Tech Goodness</h1>
+          
+          <form action="/user/signup" method="POST">
+
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Full Name</label>
+              <input type="text" class="form-control" id="name" name="fullName" required>
+          </div>
+              <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label">Email Address</label>
+                  <input type="email" class="form-control" id="exampleInputEmail1" name="email" required>
+                  <div id="emailHelp" class="form-text text-secondary">
+                      We respect your privacy. Your data is safe with us.
+                  </div>
+              </div>
+  
+              <div class="mb-3">
+                  <label for="exampleInputPassword1" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="exampleInputPassword1" name="password" required>
+              </div>
+  
+              <button type="submit" class="btn btn-warning w-100 fw-bold">Sign In</button>
+          </form>
+      </div>
+  </div>
     
 
     <%- include('./partials/scripts')%>

@@ -1,0 +1,19 @@
+p{
+    font-size: 20px;
+}
+h2{
+    text-decoration: underline;
+}
+
+#info{
+    padding: 15px;
+    background-color: rgb(50, 50, 83);
+    border-radius: 10px;
+}
+
+#posts{
+    padding: 15px;
+    background-color: rgb(50, 50, 83);
+    border-radius: 10px;
+
+}
