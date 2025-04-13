@@ -27,7 +27,7 @@
       <div class="container p-4 border border-3 rounded-3 bg-dark text-light shadow-lg" style="max-width: 400px;">
           <h1 class="text-center mb-4 text-warning fw-bold text-shadow">Dive Into Some Tech Goodness</h1>
           
-          <form action="/user/signup" method="POST">
+          <form action="/user/signup" method="POST" enctype="multipart/form-data">
 
             <div class="mb-3">
               <label for="exampleInputPassword1" class="form-label">Full Name</label>
@@ -45,6 +45,14 @@
                   <label for="exampleInputPassword1" class="form-label">Password</label>
                   <input type="password" class="form-control" id="exampleInputPassword1" name="password" required>
               </div>
+
+              <div class="mb-3" style="display: flex; flex-direction: column; align-items: center;">
+                <label for="ProfileImageURL" class="form-label">Profile Image</label>
+                <input type="file" 
+                class="form-control" 
+                id="ProfileImageURL" name="ProfileImageURL" 
+                aria-describedby="ProfileImageURL">
+            </div>
   
               <button type="submit" class="btn btn-warning w-100 fw-bold">Sign In</button>
           </form>

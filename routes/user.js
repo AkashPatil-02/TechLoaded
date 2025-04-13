@@ -2,6 +2,21 @@ const {Router} =require("express");
 const multer = require('multer');
 const User = require('../models/user');
 const Post = require('../models/post');
+const path = require('path');
+
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, path.resolve('./public/ProfilePics/')); 
+    },
+    filename: function (req, file, cb) {
+        const fileName = `${Date.now()}-${file.originalname}`;
+        cb(null, fileName);
+    }
+});
+
+const upload = multer({ storage: storage });
+
 
 const router = Router();
 
@@ -27,14 +42,16 @@ router.post('/signin',async (req,res)=>{
         
     } catch (error) {
         return res.render("signin",{
+            currentUrl: req.originalUrl,
             error:"Incorrect Email or password",}); 
     }
 } );
 
 
-router.post('/signup',async (req,res)=>{
-    const {fullName,email,password,profileImageURL} = req.body;
+router.post('/signup', upload.single("ProfileImageURL"), async (req,res)=>{
+    const {fullName,email,password} = req.body;
     await User.create({
+        profileImageURL:`/profilePics/${req.file.filename}`,
         fullName,
         email,
         password, 

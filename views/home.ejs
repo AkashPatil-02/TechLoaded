@@ -2,23 +2,40 @@
 <html lang="en">
 <head>
     <%- include('./partials/head')%>
-    
     <title>tech Loaded</title>
-
-    
 </head>
 <body style="font-family: 'Audiowide','sans serif';">
     <%- include('./partials/nav')%>
+
+    <div style="display: flex; justify-content: left; align-items: center; margin-left: 20px; margin-top: 20px;">
+        <div style="width: 150px;">
+            <form action="/" method="GET" id="categoryForm">
+                <select class="form-select" aria-label="Default select example" 
+                        name="category" 
+                        style="font-family:Verdana;" 
+                        onchange="this.form.submit()">
+                    <option value="">Category</option>
+                    <option value="tips">Tips</option>
+                    <option value="news">News</option>
+                    <option value="guides">Guides</option>
+                    <option value="other">Other</option>
+                    <option value="all">All</option>
+                </select>
+            </form>
+        </div>
+    </div>
+    
 
     <div class="container mt-3">
         <div class="row">
             <% post.forEach(post => { %>
                 <div class="col-md-3 mb-3">
                     <div class="card" style="width: 18rem;">
-                        <img src="<%=post.imageURL %>" class="card-img-top">
+                        <img src="<%=post.imageURL %>" class="card-img-top" width="400" height="170">
                         <div class="card-body">
                             <h5 class="card-title"><%=post.title %></h5>
-                            <a href="/post/<%=post._id%>" class="btn btn-primary">Open</a>
+                            <h6 class="card-title" style="font-family: cursive;">Category: <%=post.category %></h6>
+                            <a style="font-family: 'Oxanium',sans-serif" href="/post/<%=post._id%>" class="btn btn-primary">Open</a>
                         </div>
                     </div>
                 </div>

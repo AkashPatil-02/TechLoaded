@@ -7,24 +7,34 @@ const { title } = require('process');
 
 const postSchema = new Schema({
     title: {
-    type:String,
+    type: String,
     required:true,},
 
     body:{
-        type:String,
+        type: String,
         required:true
     },
-    imageURL:{
-        type:String
+    category: { 
+        type: String, 
+        default: 'other'
     },
+    imageURL:{
+        type: String
+    },
+    postImage:{
+        type: [String],
+        default: [],
+    },
+
     createdBy:{
         type: Schema.Types.ObjectId,
         ref: 'user',
     },
+    
 },
     {timestamps:true}
 );
 
 const post = model('post',postSchema);
 
-module.exports =post;
+module.exports = post;

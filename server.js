@@ -7,12 +7,16 @@ const postRoute = require("./routes/post");
 const { checkForAuthenticationCookie } = require("./middleware/authentication");
 const Post = require("./models/post");
 const User = require("./models/user");
+const methodOverride = require("method-override");
+
 
 
 const app = express();
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+app.use(methodOverride("_method"));
 
 mongoose
     .connect('mongodb://localhost:27017/forum')
@@ -31,40 +35,71 @@ app.use(express.static(path.resolve("./public")));
 
 
 app.get("/",async (req,res)=>{
-    const allPosts = await Post.find({});
+    
+    const selectedCategory = req.query.category;
+    let posts;
+    console.log(selectedCategory);
+
+    if (selectedCategory && selectedCategory.toLowerCase() !== "all") {
+        posts = await Post.find({ category: selectedCategory });
+    } else {
+        posts = await Post.find({});
+    }
+
+
     const Name = await User.findById(req.user._id).select("fullName");
     res.render('home',{
         name:Name.fullName,
         user:req.user,
-        post:allPosts,
+        post:posts,
     });
 });
 
 
 app.get('/profile', async (req,res)=>{
-    const user = await User.findById(req.user._id).select("fullName email");
-    const userPost = await Post.find({createdBy: req.user._id});    
+    const user = await User.findById(req.user._id).select("fullName email profileImageURL");
+    const userPost = await Post.find({createdBy: req.user._id}); 
      res.render('profile',{
+      pic:user.profileImageURL,
       name: user.fullName,
       user: user,
       post:userPost,
     });
   });
 
-app.delete("/profile/delete/:id", async (req, res) => {
+app.delete("/profile/:id", async (req, res) => {
     try {
         await Post.findByIdAndDelete(req.params.id);
-        res.json({ success: true });
+        res.redirect("/profile");
     } catch (error) {
         res.status(500).json({ success: false, message: "Error deleting post" });
     }
 });
 
+app.delete("/profile/user/:id", async (req, res) => {
+    console.log("DELETE /profile/user/:id route hit");
+    try {
+        await User.findByIdAndDelete(req.params.id);
+        res.redirect("/user/signup");
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Error deleting account" });
+    }
+});
+
+app.get('/profile/editProfile', async (req,res)=>{  
+    const Name = await User.findById(req.user._id).select("fullName");
+    console.log(Name);
+    console.log("hello");
+
+    res.render('editProfile',{
+        name:Name.fullName,
+    });
+})
+
 
 
 app.use("/user",userRoute);
 app.use("/post",postRoute);
-
 
 
 app.listen(8000,()=>{

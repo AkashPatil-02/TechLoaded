@@ -4,18 +4,46 @@
     <link rel="stylesheet" href="/css/profile.css">
     <%- include('./partials/head')%>
     <title>My Profile</title>
+
+    <style>
+        #profilePic{
+            width: 200px;
+            border-radius: 50%;
+            border: 5px solid rgb(163, 34, 255);
+        }
+    </style>
+    
    
 </head>
 <body>
     <%- include('./partials/nav')%>
+        
+        <div class="container mt-3" id="info" style="display: flex; gap: 5rem">
+            <div>
+                <h2>User Information</h2>
+                <p>Name: <%=name%></p>
+                <p>Email ID: <%=user.email %></p>
+            </div>
+            
+    
+            <div>
+                <h2>Profile Pic</h2>
+                    <img src="<%= user.profileImageURL %>"   id="profilePic"  >
+            </div>
 
-
-    <div class="container mt-3" id="info">
-        <h2>User Information</h2>
-        <p>Name: <%=name%></p>
-        <p>Email ID: <%=user.email %></p>
-    </div>
-
+            <div style="display: flex; justify-content: space-around; gap: 2rem; align-items:center;">
+                <div >
+                    
+                    <a href="/profile/editProfile" class="btn btn-primary">Update Profile</a>
+                </div>
+                <div>
+                    <form id="deleteUser-<%= user._id %>" action="/profile/user/<%= user._id %>?_method=DELETE" method="POST">
+                        <button type="button" class="btn btn-danger" onclick="confirmDelete2(event, '<%= user._id %>')">Delete</button>
+                    </form>                        
+                </div>
+            </div>
+        </div>
+        
     <div class="container mt-3" id="posts">
         <h2>User Posts</h2>
 
@@ -27,9 +55,15 @@
                             <img src="<%= post.imageURL %>" alt="Post Image">
                             <div class="card-body">
                                 <h5 class="card-title"><%=post.title %></h5>
-                                <a href="/post/<%=post._id%>" class="btn btn-primary">Open</a>
-                                <a href="/post/edit/<%= post._id %>" class="btn btn-warning">Edit</a>
-                                <a href="/profile" class="btn btn-danger" onclick="deletePost('<%= post._id %>')">Delete</a>
+                                
+                                <div style="display: flex; justify-content: space-around; margin-top: 10px;">
+                                    <a href="/post/<%=post._id%>" class="btn btn-primary">Open</a>
+                                    <a href="/post/edit/<%= post._id %>" class="btn btn-warning">Edit</a>
+                                    <form id="deleteForm-<%= post._id %>" action="/profile/<%= post._id %>?_method=DELETE" method="POST">
+                                        <button type="button" class="btn btn-danger" onclick="confirmDelete(event, '<%= post._id %>')">Delete</button>
+                                    </form>
+                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -38,9 +72,23 @@
         </div>
     </div>
 
+    <script>
+       function confirmDelete(event, postId) {
+        event.preventDefault();
+        if (confirm("Are you sure you want to delete this post?")) {
+            document.getElementById(`deleteForm-${postId}`).submit();
+        }
+    }
+
+        function confirmDelete2(event, userId) {
+        event.preventDefault();
+        if (confirm("Are you sure you want to delete your account ?")) {
+            document.getElementById(`deleteUser-${userId}`).submit();
+        }
+    }
+    </script>
     <%- include('./partials/scripts')%>
     <%- include('./partials/themeScript') %>
-    <%- include('./partials/deleteScript') %>
     
 </body>
 </html>

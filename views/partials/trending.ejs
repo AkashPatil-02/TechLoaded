@@ -1,23 +1,18 @@
 <div class="container mt-3">
-  <h1>New Posts</h1>
-  <div class="row">
-      <div class="col-sm-6 mb-3">
-          <div class="card">
-              <div class="card-body">
-                  <h5 class="card-title">Asus ROG Zephyrus G16</h5>
-                  <p class="card-text">very fast</p>
-                  <a href="#" class="btn btn-primary">Open</a>
-              </div>
-          </div>
-      </div>
-      <div class="col-sm-6">
-          <div class="card">
-              <div class="card-body">
-                  <h5 class="card-title">XBOX</h5>
-                  <p class="card-text">additional info needed</p>
-                  <a href="#" class="btn btn-primary">Open</a>  
-              </div>
-          </div>
-      </div>
-  </div>
+  <h1>Latest Posts</h1>
+  <div class="row" style="background-color: rgba(211, 239, 118, 0.119); border-radius: 10px; padding: 10px; margin: 10pxs;">
+
+    <% post.slice(0,3).forEach(post => { %>
+        <div class="col-sm-6 mb-3">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                  <h6 class="card-title"><%=post.title %></h6>
+                  <h6 class="card-category" style="font-family: cursive;">Category: <%=post.category %></h6>
+                  <strong style="font-size: 15px;">Created At: <%= new Date(post.createdAt).toLocaleString() %></strong>
+                  <br><br>
+                    <a href="/post/<%=post._id%>" class="btn btn-primary">Open</a>
+                </div>
+            </div>
+        </div>
+    <% }) %>
 </div>
