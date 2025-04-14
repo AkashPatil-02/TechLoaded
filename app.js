@@ -8,6 +8,8 @@ const { checkForAuthenticationCookie } = require("./middleware/authentication");
 const Post = require("./models/post");
 const User = require("./models/user");
 const methodOverride = require("method-override");
+const dotenv = require('dotenv');
+dotenv.config();
 
 
 
@@ -15,15 +17,16 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/profilePics",express.static(path.join(__dirname, "profilePics")));
 
 app.use(methodOverride("_method"));
 
 mongoose
-    .connect('mongodb://localhost:27017/forum')
-    .then(e=>console.log("DB connected"));
+    .connect(process.env.dbPass)
+    .then(e => console.log("DB connected"))
+    .catch(err => console.error("DB connection error:", err));
 
-
-
+    
 app.set('view engine', 'ejs');
 app.set("views", path.resolve("./views"));
 

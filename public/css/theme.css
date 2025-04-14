@@ -1,6 +1,6 @@
 /* Default Light Theme */
 body[data-theme="light"] {
-    background-image: url('/images/home_light.jpg');
+    background-image: url('/images/light.jpg');
     background-size: cover;
     background-color: #ffffff;
     color: #000000;
@@ -9,7 +9,7 @@ body[data-theme="light"] {
 
 /* Dark Theme */
 body[data-theme="dark"] {
-    background-image: url('/images/home1.jpg');
+    background-image: url('/images/dark2.jpg');
     background-size: cover;
     background-color: #121212;
     color: #ffffff;

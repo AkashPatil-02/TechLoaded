@@ -64,22 +64,28 @@
             </div>
             
         </div>
+
+        <div >
+        <% if (summary) { %>
+          <h2 > AI Summary</h2>
+          <div class="summary-box p-3 rounded mb-4" style="background-color:rgb(93, 113, 212);">
+            <p style="font-size:20px ;"><%= summary %></p>
+          </div>
+        <% } %>
+      </div>
+
     </div>
-
-
     
-    
-    <div class="container mt-4">
+    <div class="container mt-4" >
         <h2>Threads</h2>
       
-        <!-- Main Comment Form -->
         <form action="/post/comment/<%= post._id %>" method="post">
           <input type="hidden" name="parentThreadId" value="">
           <textarea class="form-control" placeholder="Enter your thoughts" name="content" required></textarea>
           <button type="submit" class="btn btn-primary mt-2">Add</button>
         </form>
       
-        <div class="mt-3">
+        <div class="mt-3" style="background-color: rgb(93, 113, 212); border-radius: 20px;" >
           <% threads.forEach(thread => { %>
             <div class="mt-3 p-3 border rounded">
               <div class="d-flex align-items-start">
@@ -89,15 +95,13 @@
                   <pre class="mb-0"><%= thread.content %></pre>
                 </div>
               </div>
-      
-              <!-- Reply Form -->
+              
               <form action="/post/comment/<%= post._id %>" method="post" class="ms-4 mt-2">
                 <input type="hidden" name="parentThreadId" value="<%= thread._id %>">
                 <textarea class="form-control" placeholder="Reply to this comment" name="content" required></textarea>
                 <button type="submit" class="btn btn-secondary mt-2">Reply</button>
               </form>
       
-              <!-- Replies -->
               <% if (thread.replies && thread.replies.length > 0) { %>
                 <div class="ms-5 mt-3">
                   <% thread.replies.forEach(reply => { %>
@@ -118,8 +122,6 @@
         </div>
       </div>
       
-
-
     <%- include('./partials/scripts') %>
     <%- include('./partials/themeScript') %>
     <script></script>

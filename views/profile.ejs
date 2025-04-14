@@ -32,13 +32,9 @@
             </div>
 
             <div style="display: flex; justify-content: space-around; gap: 2rem; align-items:center;">
-                <div >
-                    
-                    <a href="/profile/editProfile" class="btn btn-primary">Update Profile</a>
-                </div>
                 <div>
                     <form id="deleteUser-<%= user._id %>" action="/profile/user/<%= user._id %>?_method=DELETE" method="POST">
-                        <button type="button" class="btn btn-danger" onclick="confirmDelete2(event, '<%= user._id %>')">Delete</button>
+                        <button type="button" class="btn btn-danger" onclick="confirmDelete2(event, '<%= user._id %>')">Delete Profile</button>
                     </form>                        
                 </div>
             </div>

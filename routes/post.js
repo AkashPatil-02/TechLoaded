@@ -3,6 +3,30 @@ const Post = require('../models/post');
 const User = require("../models/user");
 const Thread = require("../models/thread");
 const upload = require('../services/multerConfig');
+const axios = require('axios');
+const dotenv = require('dotenv');
+dotenv.config()
+
+
+
+async function getSummary(text) {
+  try {
+    const response = await axios.post(
+      'https://api-inference.huggingface.co/models/facebook/bart-large-cnn',
+      { inputs: text },
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.HF_API_TOKEN}`,
+        },
+      }
+    );
+
+    return response.data[0]?.summary_text || "No summary available.";
+  } catch (error) {
+    console.error("Hugging Face summarization error:", error.message);
+    return "Summary could not be generated.";
+  }
+}
 
 const router = Router();
 
@@ -38,31 +62,39 @@ router.post('/edit/:id', async (req, res) => {
   return res.redirect('/');
 });
 
+
 router.get('/:id', async (req, res) => {
-  const post = await Post.findById(req.params.id).populate('createdBy');
-  const Name = await User.findById(req.user._id).select("fullName");
+  try {
+    const post = await Post.findById(req.params.id).populate('createdBy');
+    const Name = await User.findById(req.user._id).select("fullName");
 
-  // Fetch only top-level threads (i.e., those without parent)
-  const threads = await Thread.find({ postId: req.params.id, parentThreadId: null })
-    .populate('createdBy')
-    .lean();
+    const threads = await Thread.find({ postId: req.params.id, parentThreadId: null })
+      .populate('createdBy')
+      .lean();
 
-  // Fetch all replies separately
-  const allReplies = await Thread.find({ postId: req.params.id, parentThreadId: { $ne: null } })
-    .populate('createdBy')
-    .lean();
+    const allReplies = await Thread.find({ postId: req.params.id, parentThreadId: { $ne: null } })
+      .populate('createdBy')
+      .lean();
 
-  // Attach replies to each thread
-  threads.forEach(thread => {
-    thread.replies = allReplies.filter(reply => reply.parentThreadId.toString() === thread._id.toString());
-  });
+    threads.forEach(thread => {
+      thread.replies = allReplies.filter(reply => reply.parentThreadId.toString() === thread._id.toString());
+    });
 
-  return res.render('post', {
-    name: Name.fullName,
-    user: req.user,
-    post,
-    threads,
-  });
+    // 🔥 Get summary using Hugging Face
+    const trimmedBody = post.body?.slice(0, 1500) || ""; // limit input size
+    const summary = await getSummary(trimmedBody);
+
+    return res.render('post', {
+      name: Name.fullName,
+      user: req.user,
+      post,
+      threads,
+      summary, // 👈 pass the summary to EJS
+    });
+  } catch (err) {
+    console.error("Error rendering post page:", err);
+    res.status(500).send("Something went wrong.");
+  }
 });
 
 
@@ -93,7 +125,6 @@ router.post('/', upload.fields([
   }
 });
 
-// Handle comments and replies
 router.post('/comment/:postId', async (req, res) => {
   const { content, parentThreadId } = req.body;
 
